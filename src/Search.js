@@ -44,9 +44,7 @@ class Search extends Component {
   };
 
   updateQuery = (query) => {
-    this.getAndUpdateMyBooksArray();
     this.setState({ query: query });
-
     BooksAPI.search(query, 20).then((searchBooksArray) => {
       Array.isArray(searchBooksArray) ? this.setState({ searchBooksArray }) : this.setState({ searchBooksArray: [] });
       this.resetSearchResultsShelf();
@@ -56,6 +54,7 @@ class Search extends Component {
 
   updateBookShelf = (book, shelf) => {
     BooksAPI.update(book, shelf).then(() => {
+      this.getAndUpdateMyBooksArray();
       this.updateQuery(this.state.query);
     })
   };
