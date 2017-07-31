@@ -1,25 +1,58 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import * as BooksAPI from './BooksAPI';
+import ListOfBooks from './ListOfBooks';
 
 class MyBooksList extends Component {
   state = {
-    myBooksList: []
+    currentlyReading: [],
+    wantToRead: [],
+    read: []
   }
 
   componentDidMount() {
-    BooksAPI.getAll().then((myBooksList) => {
-      this.setState({ myBooksList });
+    BooksAPI.getAll().then((booksArray) => {
+      this.setState({currentlyReading: booksArray.filter(book => book.shelf === 'currentlyReading')});
+      this.setState({wantToRead: booksArray.filter(book => book.shelf === 'wantToRead')});
+      this.setState({read: booksArray.filter(book => book.shelf === 'read')});
+      // this.setState({ booksArray });
       console.log(this.state);
     });
   }
 
   render() {
     return (
-      <div className="open-search">
-        <Link
-          to="/search"
-          >Add a book</Link>
+      <div className="list-books">
+        <div className="list-books-title">
+          <h1>MyReads</h1>
+        </div>
+        <div className="list-books-content">
+          <div>
+            <div className="bookshelf">
+              <h2 className="bookshelf-title">Currently Reading</h2>
+              <div className="bookshelf-books">
+                <ListOfBooks booksArray={this.state.currentlyReading}/>
+              </div>
+            </div>
+            <div className="bookshelf">
+              <h2 className="bookshelf-title">Want To Read</h2>
+              <div className="bookshelf-books">
+                <ListOfBooks booksArray={this.state.wantToRead}/>
+              </div>
+            </div>
+            <div className="bookshelf">
+              <h2 className="bookshelf-title">Read</h2>
+              <div className="bookshelf-books">
+                <ListOfBooks booksArray={this.state.read}/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="open-search">
+          <Link
+            to="/search"
+            >Add a book</Link>
+        </div>
       </div>
     );
   }

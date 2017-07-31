@@ -1,12 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Book from './Book';
 
 const List = (children) => (
-  <div className="search-books-results">
     <ol className="books-grid">
       {children}
     </ol>
-  </div>
 );
 
 const ListItem = (book) => (
@@ -15,8 +13,8 @@ const ListItem = (book) => (
   </li>
 );
 
-const SearchResults = (props) => (
-  List(props.searchResultsArray.map(ListItem))
+const ListOfBooks = (props) => (
+  List(props.booksArray.map(ListItem))
 );
 
-export default SearchResults;
+export default ListOfBooks;
