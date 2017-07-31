@@ -7,15 +7,58 @@ class Search extends Component {
 
   state = {
     query: '',
-    booksArray: []
+    myBooksArray: [],
+    searchBooksArray: []
   }
 
-  updateQuery = (query) => {
-    this.setState({ query: query });
-    BooksAPI.search(query, 20).then((booksArray) => {
-      Array.isArray(booksArray) ? this.setState({ booksArray }) : this.setState({ booksArray: [] });
+  getAndUpdateMyBooksArray() {
+    BooksAPI.getAll().then((myBooksArray) => {
+      this.setState({ myBooksArray });
+      // this.setState({ booksArray });
+      console.log(this.state);
     });
+  };
+
+  componentDidMount() {
+    this.getAndUpdateMyBooksArray();
   }
+
+  resetSearchResultsShelf = () => {
+    this.state.searchBooksArray.map((searchBook, index) => {
+      this.setState((state) => state.searchBooksArray[index].shelf = 'none')
+    });
+  };
+
+  assignProperShelf = () => {
+    const { myBooksArray, searchBooksArray } = this.state;
+    myBooksArray.map((myBook) => {
+      searchBooksArray.map((searchBook, index) => {
+        if (myBook.id === searchBook.id) {
+          console.log(myBook.title);
+          this.setState((state) => {
+            state.searchBooksArray[index].shelf = myBook.shelf;
+          });
+        }
+      })
+    })
+  };
+
+  updateQuery = (query) => {
+    this.getAndUpdateMyBooksArray();
+    this.setState({ query: query });
+
+    BooksAPI.search(query, 20).then((searchBooksArray) => {
+      Array.isArray(searchBooksArray) ? this.setState({ searchBooksArray }) : this.setState({ searchBooksArray: [] });
+      this.resetSearchResultsShelf();
+      this.assignProperShelf();
+    });
+  };
+
+  updateBookShelf = (book, shelf) => {
+    BooksAPI.update(book, shelf).then(() => {
+      this.updateQuery(this.state.query);
+    })
+  };
 
 
   render() {
@@ -36,7 +79,9 @@ class Search extends Component {
           </div>
         </div>
         <div className="search-books-results">
-          <ListOfBooks booksArray={ this.state.booksArray}/>
+          <ListOfBooks
+            booksArray={this.state.searchBooksArray}
+            onUpdateBookShelf={this.updateBookShelf}/>
         </div>
       </div>
     );

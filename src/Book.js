@@ -2,7 +2,9 @@ import React from 'react';
 
 const ShelfChanger = (props) => (
   <div className="book-shelf-changer">
-    <select value={props.book.shelf}>
+    <select
+      value={props.book.shelf}
+      onChange={(event) => props.onUpdateBookShelf(props.book, event.target.value)}>
       <option value="disabled" disabled>Move to...</option>
       <option value="currentlyReading">Currently Reading</option>
       <option value="wantToRead">Want to Read</option>
@@ -33,7 +35,9 @@ const Book = (props) => {
   <div className="book">
     <div className="book-top">
       <BookImage book={props.book}/>
-      <ShelfChanger book={props.book}/>
+      <ShelfChanger
+        book={props.book}
+        onUpdateBookShelf={props.onUpdateBookShelf}/>
     </div>
     <div className="book-title">{props.book.title}
     </div>

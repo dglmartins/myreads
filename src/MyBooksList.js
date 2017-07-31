@@ -11,7 +11,7 @@ class MyBooksList extends Component {
     read: []
   }
 
-  componentDidMount() {
+  getAndUpdateState() {
     BooksAPI.getAll().then((booksArray) => {
       this.setState({currentlyReading: booksArray.filter(book => book.shelf === 'currentlyReading')});
       this.setState({wantToRead: booksArray.filter(book => book.shelf === 'wantToRead')});
@@ -19,7 +19,17 @@ class MyBooksList extends Component {
       // this.setState({ booksArray });
       console.log(this.state);
     });
+  };
+
+  componentDidMount() {
+    this.getAndUpdateState();
   }
+
+  updateBookShelf = (book, shelf) => {
+    BooksAPI.update(book, shelf).then(() => {
+      this.getAndUpdateState();
+    })
+  };
 
   render() {
     return (
@@ -29,9 +39,16 @@ class MyBooksList extends Component {
         </div>
         <div className="list-books-content">
           <div>
-            <BookShelf title="Currently Reading" books={this.state.currentlyReading}/>
-            <BookShelf title="Want To Read" books={this.state.wantToRead}/>
-            <BookShelf title="Read" books={this.state.read}/>
+            <BookShelf
+              title="Currently Reading" books={this.state.currentlyReading}
+              onUpdateBookShelf={this.updateBookShelf}/>
+            <BookShelf
+              title="Want To Read" books={this.state.wantToRead}
+              onUpdateBookShelf={this.updateBookShelf}/>
+            <BookShelf
+              title="Read"
+              books={this.state.read}
+              onUpdateBookShelf={this.updateBookShelf}/>
           </div>
         </div>
         <div className="open-search">
