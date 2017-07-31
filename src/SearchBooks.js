@@ -46,7 +46,7 @@ class SearchBooks extends Component {
         {/**
          * TODO: The below can be its own component?.
          */}
-         <SearchResults searchBooks={this.state.searchBooks}/>
+         <SearchResults searchBooks={ this.state.searchBooks}/>
       </div>
     );
   }
