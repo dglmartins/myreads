@@ -16,7 +16,7 @@ const ListItem = (book) => (
 );
 
 const SearchResults = (props) => (
-  List(props.searchBooks.map(ListItem))
+  List(props.searchResultsArray.map(ListItem))
 );
 
 export default SearchResults;

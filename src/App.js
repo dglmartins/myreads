@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import './App.css';
-import SearchBooks from './SearchBooks';
+import Search from './Search';
 
 class App extends Component {
 
@@ -9,7 +9,7 @@ class App extends Component {
     return (
       <div className="App">
         <Route exact path="/search" render={() => (
-          <SearchBooks />
+          <Search />
         )}
       />
       </div>

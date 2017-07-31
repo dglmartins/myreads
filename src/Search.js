@@ -3,17 +3,17 @@ import { Link } from 'react-router-dom';
 import SearchResults from './SearchResults';
 import * as BooksAPI from './BooksAPI';
 
-class SearchBooks extends Component {
+class Search extends Component {
 
   state = {
     query: '',
-    searchBooks: []
+    searchResultsArray: []
   }
 
   updateQuery = (query) => {
     this.setState({ query: query });
-    BooksAPI.search(query, 20).then((searchBooks) => {
-      Array.isArray(searchBooks) ? this.setState({ searchBooks }) : this.setState({ searchBooks: [] });
+    BooksAPI.search(query, 20).then((searchResultsArray) => {
+      Array.isArray(searchResultsArray) ? this.setState({ searchResultsArray }) : this.setState({ searchResultsArray: [] });
     });
   }
 
@@ -50,10 +50,10 @@ class SearchBooks extends Component {
         {/**
          * TODO: The below can be its own component?.
          */}
-         <SearchResults searchBooks={ this.state.searchBooks}/>
+         <SearchResults searchResultsArray={ this.state.searchResultsArray}/>
       </div>
     );
   }
 }
 
-export default SearchBooks;
+export default Search;
