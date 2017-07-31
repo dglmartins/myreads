@@ -29,7 +29,7 @@ class Search extends Component {
     });
   };
 
-  assignProperShelf = () => {
+  assignProperShelfToSearchResults = () => {
     const { myBooksArray, searchBooksArray } = this.state;
     myBooksArray.map((myBook) => {
       searchBooksArray.map((searchBook, index) => {
@@ -50,7 +50,7 @@ class Search extends Component {
     BooksAPI.search(query, 20).then((searchBooksArray) => {
       Array.isArray(searchBooksArray) ? this.setState({ searchBooksArray }) : this.setState({ searchBooksArray: [] });
       this.resetSearchResultsShelf();
-      this.assignProperShelf();
+      this.assignProperShelfToSearchResults();
     });
   };
 
