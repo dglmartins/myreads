@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import * as BooksAPI from './BooksAPI';
 import ListOfBooks from './ListOfBooks';
+import BookShelf from './BookShelf';
 
 class MyBooksList extends Component {
   state = {
@@ -28,24 +29,9 @@ class MyBooksList extends Component {
         </div>
         <div className="list-books-content">
           <div>
-            <div className="bookshelf">
-              <h2 className="bookshelf-title">Currently Reading</h2>
-              <div className="bookshelf-books">
-                <ListOfBooks booksArray={this.state.currentlyReading}/>
-              </div>
-            </div>
-            <div className="bookshelf">
-              <h2 className="bookshelf-title">Want To Read</h2>
-              <div className="bookshelf-books">
-                <ListOfBooks booksArray={this.state.wantToRead}/>
-              </div>
-            </div>
-            <div className="bookshelf">
-              <h2 className="bookshelf-title">Read</h2>
-              <div className="bookshelf-books">
-                <ListOfBooks booksArray={this.state.read}/>
-              </div>
-            </div>
+            <BookShelf title="Currently Reading" books={this.state.currentlyReading}/>
+            <BookShelf title="Want To Read" books={this.state.wantToRead}/>
+            <BookShelf title="Read" books={this.state.read}/>
           </div>
         </div>
         <div className="open-search">
