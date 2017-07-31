@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
 import SearchResults from './SearchResults';
+import * as BooksAPI from './BooksAPI';
 
 class SearchBooks extends Component {
 
   state = {
-    query: ''
+    query: '',
+    searchBooks: []
   }
 
   updateQuery = (query) => {
-    this.setState({ query: query })
+    this.setState({ query: query });
+    BooksAPI.search(query, 20).then((searchBooks) => {
+      Array.isArray(searchBooks) ? this.setState({ searchBooks }) : this.setState({ searchBooks: [] });
+    });
   }
 
 
@@ -41,7 +46,7 @@ class SearchBooks extends Component {
         {/**
          * TODO: The below can be its own component?.
          */}
-         <SearchResults query={this.state.query}/>
+         <SearchResults searchBooks={this.state.searchBooks}/>
       </div>
     );
   }
