@@ -3,6 +3,16 @@ import { Link } from 'react-router-dom';
 import * as BooksAPI from './BooksAPI';
 
 class MyBooksList extends Component {
+  state = {
+    myBooksList: []
+  }
+
+  componentDidMount() {
+    BooksAPI.getAll().then((myBooksList) => {
+      this.setState({ myBooksList });
+      console.log(this.state);
+    });
+  }
 
   render() {
     return (
