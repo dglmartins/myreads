@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import SearchResults from './SearchResults';
 
 class SearchBooks extends Component {
 
@@ -40,12 +41,10 @@ class SearchBooks extends Component {
         {/**
          * TODO: The below can be its own component?.
          */}
-        <div className="search-books-results">
-          <ol className="books-grid"></ol>
-        </div>
+         <SearchResults query={this.state.query}/>
       </div>
     );
   }
 }
 
-export default SearchBooks
+export default SearchBooks;
