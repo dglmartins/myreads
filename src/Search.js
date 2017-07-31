@@ -22,9 +22,7 @@ class Search extends Component {
     return (
       <div className="search-books">
         <div className="search-books-bar">
-          {/**
-           * TODO: Add onClick to below}.
-           */}
+        
           <Link
             to="/"
             className="close-search"
