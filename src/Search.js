@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import ListOfBooks from './ListOfBooks';
 import * as BooksAPI from './BooksAPI';
+import R from 'ramda';
 
 class Search extends Component {
 
@@ -14,8 +15,6 @@ class Search extends Component {
   getAndUpdateMyBooksArray() {
     BooksAPI.getAll().then((myBooksArray) => {
       this.setState({ myBooksArray });
-      // this.setState({ booksArray });
-      console.log(this.state);
     });
   };
 
@@ -23,31 +22,25 @@ class Search extends Component {
     this.getAndUpdateMyBooksArray();
   }
 
-  resetSearchResultsShelf = () => {
-    this.state.searchBooksArray.map((searchBook, index) => {
-      this.setState((state) => state.searchBooksArray[index].shelf = 'none')
-    });
-  };
-
   assignProperShelfToSearchResults = () => {
     const { myBooksArray, searchBooksArray } = this.state;
-    myBooksArray.map((myBook) => {
-      searchBooksArray.map((searchBook, index) => {
-        if (myBook.id === searchBook.id) {
-          console.log(myBook.title);
-          this.setState((state) => {
-            state.searchBooksArray[index].shelf = myBook.shelf;
-          });
-        }
-      })
-    })
+
+    const properShelfStatus = (searchBook) => {
+      const searchBooksInMyBooks = myBooksArray.filter((myBook) => myBook.id === searchBook.id);
+      return searchBooksInMyBooks[0] ?  {shelf: searchBooksInMyBooks[0].shelf} : {shelf: 'none'};
+    }
+
+    const properShelfStatusArray = R.map(properShelfStatus, searchBooksArray);
+
+    const resetShelfSearchBooks = searchBooksArray.map((book, index) => R.merge(book, properShelfStatusArray[index]));
+
+    this.setState({ searchBooksArray: resetShelfSearchBooks});
   };
 
   updateQuery = (query) => {
     this.setState({ query: query });
     BooksAPI.search(query, 20).then((searchBooksArray) => {
       Array.isArray(searchBooksArray) ? this.setState({ searchBooksArray }) : this.setState({ searchBooksArray: [] });
-      this.resetSearchResultsShelf();
       this.assignProperShelfToSearchResults();
     });
   };
