@@ -10,38 +10,40 @@ import BookShelf from './BookShelf';
 
 class MyBooksList extends Component {
 
-  //Has a state with 3 arrays of books, currentlyReading, wantToRead and read.
+  //Has a state with arrays of my books.
   state = {
-    currentlyReading: [],
-    wantToRead: [],
-    read: []
+    myBooks: []
   }
 
   /**
-  * @description - gets my books from server with API call then sets state of each array using .filter. Called when componentDidMount().
+  * @description - gets my books from server with API call then sets state. Called when componentDidMount().
   */
-  getAndUpdateState() {
-    BooksAPI.getAll().then((booksArray) => {
-      this.setState({currentlyReading: booksArray.filter(book => book.shelf === 'currentlyReading')});
-      this.setState({wantToRead: booksArray.filter(book => book.shelf === 'wantToRead')});
-      this.setState({read: booksArray.filter(book => book.shelf === 'read')});
+  getAllFromAPI() {
+    BooksAPI.getAll().then((myBooks) => {
+      this.setState({myBooks})
     });
   };
 
   /**
-  * @description - Calls getAndUpdateState() when componentDidMount.
+  * @description - Calls getAllFromAPI() when componentDidMount.
   */
   componentDidMount() {
-    this.getAndUpdateState();
+    this.getAllFromAPI();
   }
 
   /**
-  * @description - Updates shelf of a book in the server with API call then resets the state by calling getAndUpdateState(). Passed to children components, finally called onChange in ShelfChanger component.
+  * @description - Updates shelf of a book in the server with API call then updates shelf of that book in state. Passed to child component, finally called onChange in ShelfChanger component.
   */
 
   updateBookShelf = (book, shelf) => {
     BooksAPI.update(book, shelf).then(() => {
-      this.getAndUpdateState();
+      const myBooks = this.state.myBooks.map((myBook) => {
+        if (myBook.id === book.id) {
+          myBook.shelf = shelf;
+        }
+        return myBook;
+      });
+      this.setState({myBooks});
     })
   };
 
@@ -57,14 +59,14 @@ class MyBooksList extends Component {
         <div className="list-books-content">
           <div>
             <BookShelf
-              title="Currently Reading" books={this.state.currentlyReading}
+              title="Currently Reading" books={this.state.myBooks.filter(book => book.shelf === 'currentlyReading')}
               onUpdateBookShelf={this.updateBookShelf}/>
             <BookShelf
-              title="Want To Read" books={this.state.wantToRead}
+              title="Want To Read" books={this.state.myBooks.filter(book => book.shelf === 'wantToRead')}
               onUpdateBookShelf={this.updateBookShelf}/>
             <BookShelf
               title="Read"
-              books={this.state.read}
+              books={this.state.myBooks.filter(book => book.shelf === 'read')}
               onUpdateBookShelf={this.updateBookShelf}/>
           </div>
         </div>
