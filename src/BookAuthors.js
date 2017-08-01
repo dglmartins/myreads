@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 /**
-* @description BookAuthors stateless functional component. Returns a <div> with the joined Array of authors of a book or with the string 'No author info' if there are no authors. BookAuthors gets called by Book Component.
+* @description BookAuthors stateless functional component. BookAuthors gets called by Book Component.
+* @returns a <div> with the joined Array of authors of a book or with the string 'No author info' if there are no authors.
 * @param {object} props - One prop passed from parent: {object} props.book - current book object
 */
 

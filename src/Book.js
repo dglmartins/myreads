@@ -5,7 +5,8 @@ import BookAuthors from './BookAuthors';
 import PropTypes from 'prop-types';
 
 /**
-* @description Book stateless functional component. Returns a <div> with the all the Book info. Calls BookImage, ShelfChanger, and BookAuthors components. Book gets called by ListOfBooks component.
+* @description Book stateless functional component. Calls BookImage, ShelfChanger, and BookAuthors components. Book gets called by ListOfBooks component.
+* @returns a <div> with the all the Book info.
 * @param {object} props - Two props from parent: {object} props.book - current book object passed to BookImage, ShelfChanger and BookAuthors components; {function} props.onUpdateBookShelf - function that updates the book shelf passed to ShelfChanger component.
 */
 

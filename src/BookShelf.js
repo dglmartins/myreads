@@ -3,7 +3,8 @@ import ListOfBooks from './ListOfBooks';
 import PropTypes from 'prop-types';
 
 /**
-* @description BookShelf stateless functional component. Returns a <div> with a shelf containing books of a list. Calls ListOfBooks component. BookShelf gets called by MyBooksList component.
+* @description BookShelf stateless functional component. BookShelf gets called by MyBooksList component.
+* @returns a <div> with a shelf containing books of a list. Calls ListOfBooks component.
 * @param {object} props - Three props from parent: {array} props.booksArray - a list of book objects passed as a prop to ListOfBooks component; {function} props.onUpdateBookShelf - function that updates the book shelf passed to ListOfBooks component; {string} props.title - The title of a shelf.
 */
 

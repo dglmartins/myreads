@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 /**
-* @description BookImage stateless functional component. Returns a <div> with image of Book if one exists or with a blank image if  it does not. BookImage gets called by Book Component.
+* @description BookImage stateless functional component. BookImage gets called by Book Component.
+* @returns a <div> with image of Book if one exists or with a blank image if  it does not.
 * @param {object} props - One prop passed from parent: {object} props.book - current book object
 */
 

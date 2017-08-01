@@ -4,7 +4,8 @@ import * as BooksAPI from './BooksAPI';
 import BookShelf from './BookShelf';
 
 /**
-* @description MyBooksList component. Has a react-router <Link> to '/search'. Returns a <div> with three shelves each containing books of a list by calling BookShelf component three times. Passes title of shelf, a list of books from state, and updateBookShelf method to each BookShelf call as props. MyBooksList gets called by App component in Route '/'.
+* @description MyBooksList component. Has a react-router <Link> to '/search'. Passes title of shelf, a list of books from state, and updateBookShelf method to each BookShelf call as props. MyBooksList gets called by App component in Route '/'.
+* @returns a <div> with three shelves each containing books of a list by calling BookShelf component three times.
 */
 
 class MyBooksList extends Component {
@@ -16,7 +17,8 @@ class MyBooksList extends Component {
     read: []
   }
 
-  /**@function - gets my books from server with API call then sets state of each array using .filter. Called when componentDidMount().
+  /**
+  * @description - gets my books from server with API call then sets state of each array using .filter. Called when componentDidMount().
   */
   getAndUpdateState() {
     BooksAPI.getAll().then((booksArray) => {
@@ -26,22 +28,25 @@ class MyBooksList extends Component {
     });
   };
 
-  /**@function - Calls getAndUpdateState() when componentDidMount.
+  /**
+  * @description - Calls getAndUpdateState() when componentDidMount.
   */
   componentDidMount() {
     this.getAndUpdateState();
   }
 
-  /**@function - Updates shelf of a book in the server with API call then resets the state by calling getAndUpdateState(). Passed to children components, finally called onChange in ShelfChanger component.
+  /**
+  * @description - Updates shelf of a book in the server with API call then resets the state by calling getAndUpdateState(). Passed to children components, finally called onChange in ShelfChanger component.
   */
-  
+
   updateBookShelf = (book, shelf) => {
     BooksAPI.update(book, shelf).then(() => {
       this.getAndUpdateState();
     })
   };
 
-  /**@function -  Render method returns a <div> with 3 BookShelf calls, and a react-router <Link> to '/search'.
+  /**
+  * @returns - a <div> with 3 BookShelf calls, and a react-router <Link> to '/search'.
   */
   render() {
     return (

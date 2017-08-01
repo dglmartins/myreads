@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 /**
-* @description ShelfChanger stateless functional component. Returns a <div> with the options list to change a book from one shelf to another OnChange. ShelfChanger gets called by Book Component.
+* @description ShelfChanger stateless functional component. ShelfChanger gets called by Book Component.
+* @returns a <div> with the options list to change a book from one shelf to another OnChange.
 * @param {object} props - Two props passed from parent: {object} props.book - current book object passed from * parent Component; {function} props.onUpdateBookShelf - function that updates the book shelf passed from parent Component
 */
 
