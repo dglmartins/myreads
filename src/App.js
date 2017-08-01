@@ -4,6 +4,10 @@ import './App.css';
 import Search from './Search';
 import MyBooksList from './MyBooksList';
 
+/**
+* @description App component. Uses Route to call Search and MyBooksList components depending on path. App gets called in index.js to display App in root div.
+*/
+
 class App extends Component {
 
   render() {

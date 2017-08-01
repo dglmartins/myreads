@@ -1,35 +1,13 @@
 import React from 'react';
+import ShelfChanger from './ShelfChanger';
+import BookImage from './BookImage';
+import BookAuthors from './BookAuthors';
 import PropTypes from 'prop-types';
 
-const ShelfChanger = (props) => (
-  <div className="book-shelf-changer">
-    <select
-      value={props.book.shelf}
-      onChange={(event) => props.onUpdateBookShelf(props.book, event.target.value)}>
-      <option value="disabled" disabled>Move to...</option>
-      <option value="currentlyReading">Currently Reading</option>
-      <option value="wantToRead">Want to Read</option>
-      <option value="read">Read</option>
-      <option value="none">None</option>
-    </select>
-  </div>
-);
-
-const BookImage = (props) => {
-  let image = props.book.imageLinks ? props.book.imageLinks.thumbnail : '';
-  return (
-  <div className="book-cover" style={{ width: 128, height: 193, backgroundImage:  `url(${image})` }}>
-  </div>
-  );
-};
-
-const BookAuthors = (props) => {
-  let authors = props.book.authors ? props.book.authors.join('; ') : 'No author info';
-  return (
-    <div className="book-authors">{authors}
-    </div>
-  );
-};
+/**
+* @description Book stateless functional component. Returns a <div> with the all the Book info. Calls BookImage, ShelfChanger, and BookAuthors components. Book gets called by ListOfBooks component.
+* @param {object} props - Two props from parent: {object} props.book - current book object passed to BookImage, ShelfChanger and BookAuthors components; {function} props.onUpdateBookShelf - function that updates the book shelf passed to ShelfChanger component.
+*/
 
 const Book = (props) => {
   return (
@@ -47,6 +25,7 @@ const Book = (props) => {
   );
 };
 
+/*propTypes check*/
 Book.propTypes = {
   book: PropTypes.object.isRequired,
   onUpdateBookShelf: PropTypes.func.isRequired

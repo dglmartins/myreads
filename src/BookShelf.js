@@ -2,6 +2,11 @@ import React from 'react';
 import ListOfBooks from './ListOfBooks';
 import PropTypes from 'prop-types';
 
+/**
+* @description BookShelf stateless functional component. Returns a <div> with a shelf containing books of a list. Calls ListOfBooks component. BookShelf gets called by MyBooksList component.
+* @param {object} props - Three props from parent: {array} props.booksArray - a list of book objects passed as a prop to ListOfBooks component; {function} props.onUpdateBookShelf - function that updates the book shelf passed to ListOfBooks component; {string} props.title - The title of a shelf.
+*/
+
 const BookShelf = (props) => (
   <div className="bookshelf">
     <h2 className="bookshelf-title">{props.title}</h2>
@@ -13,6 +18,7 @@ const BookShelf = (props) => (
   </div>
 );
 
+/*propTypes check*/
 BookShelf.propTypes = {
   title: PropTypes.string.isRequired,
   books: PropTypes.array.isRequired,

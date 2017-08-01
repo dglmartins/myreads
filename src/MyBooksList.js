@@ -3,13 +3,21 @@ import { Link } from 'react-router-dom';
 import * as BooksAPI from './BooksAPI';
 import BookShelf from './BookShelf';
 
+/**
+* @description MyBooksList component. Has a react-router <Link> to '/search'. Returns a <div> with three shelves each containing books of a list by calling BookShelf component three times. Passes title of shelf, a list of books from state, and updateBookShelf method to each BookShelf call as props. MyBooksList gets called by App component in Route '/'.
+*/
+
 class MyBooksList extends Component {
+
+  //Has a state with 3 arrays of books, currentlyReading, wantToRead and read.
   state = {
     currentlyReading: [],
     wantToRead: [],
     read: []
   }
 
+  /**@function - gets my books from server with API call then sets state of each array using .filter. Called when componentDidMount().
+  */
   getAndUpdateState() {
     BooksAPI.getAll().then((booksArray) => {
       this.setState({currentlyReading: booksArray.filter(book => book.shelf === 'currentlyReading')});
@@ -18,16 +26,23 @@ class MyBooksList extends Component {
     });
   };
 
+  /**@function - Calls getAndUpdateState() when componentDidMount.
+  */
   componentDidMount() {
     this.getAndUpdateState();
   }
 
+  /**@function - Updates shelf of a book in the server with API call then resets the state by calling getAndUpdateState(). Passed to children components, finally called onChange in ShelfChanger component.
+  */
+  
   updateBookShelf = (book, shelf) => {
     BooksAPI.update(book, shelf).then(() => {
       this.getAndUpdateState();
     })
   };
 
+  /**@function -  Render method returns a <div> with 3 BookShelf calls, and a react-router <Link> to '/search'.
+  */
   render() {
     return (
       <div className="list-books">
