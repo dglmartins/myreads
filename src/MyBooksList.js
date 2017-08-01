@@ -16,35 +16,27 @@ class MyBooksList extends Component {
   }
 
   /**
-  * @description - gets my books from server with API call then sets state. Called when componentDidMount().
+  * @description - gets my books from server with API call then sets state when componentDidMount.
   */
-  getAllFromAPI() {
+  componentDidMount() {
     BooksAPI.getAll().then((myBooks) => {
       this.setState({myBooks})
     });
-  };
-
-  /**
-  * @description - Calls getAllFromAPI() when componentDidMount.
-  */
-  componentDidMount() {
-    this.getAllFromAPI();
   }
 
   /**
-  * @description - Updates shelf of a book in the server with API call then updates shelf of that book in state. Passed to child component, finally called onChange in ShelfChanger component.
+  * @description - updates shelf of a book in state right away to avoid lag, then updates shelf of a book in the server with API call. Passed to child component, finally called onChange in ShelfChanger component.
   */
 
   updateBookShelf = (book, shelf) => {
-    BooksAPI.update(book, shelf).then(() => {
-      const myBooks = this.state.myBooks.map((myBook) => {
-        if (myBook.id === book.id) {
-          myBook.shelf = shelf;
-        }
-        return myBook;
-      });
-      this.setState({myBooks});
-    })
+    const myBooks = this.state.myBooks.map((myBook) => {
+      if (myBook.id === book.id) {
+        myBook.shelf = shelf;
+      }
+      return myBook;
+    });
+    this.setState({myBooks});
+    BooksAPI.update(book, shelf);
   };
 
   /**

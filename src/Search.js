@@ -18,23 +18,16 @@ class Search extends Component {
   }
 
   /**
-  * @description - gets my books from server with API call then sets state of myBooksArray. Called when componentDidMount() and when updateBookShelf().
+  * @description - gets my books from server with API call then sets state of myBooksArray when componentDidMount().
   */
-  getAndUpdateMyBooksArray() {
+  componentDidMount() {
     BooksAPI.getAll().then((myBooksArray) => {
       this.setState({ myBooksArray });
     });
   }
 
   /**
-  * @description - calls getAndUpdateMyBooksArray() when componentDidMount.
-  */
-  componentDidMount() {
-    this.getAndUpdateMyBooksArray();
-  }
-
-  /**
-  * @description - Assigns proper shelves to search result then sets state. Uses Ramda for merging and mapping (so I could try out Ramda!). Called when updateQuery() so search results are updated every time query changes.
+  * @description - Assigns proper shelves to search result then sets state. Called when updateQuery() so search results are updated every time query changes.
   */
 
   assignProperShelfToSearchResults = () => {
@@ -58,18 +51,17 @@ class Search extends Component {
   };
 
   /**
-  * @description - Updates shelf of a book in the server with API call then updates shelf of that book in state. Passed to child component, finally called onChange in ShelfChanger component.
+  * @description - updates shelf of that book in state right away to avoid lag. then updates shelf of a book in the server with API call. Passed to child component, finally called onChange in ShelfChanger component.
   */
   updateBookShelf = (book, shelf) => {
-    BooksAPI.update(book, shelf).then(() => {
-      const searchBooksArray = this.state.searchBooksArray.map((searchBook) => {
-        if (searchBook.id === book.id) {
-          searchBook.shelf = shelf;
-        }
-        return searchBook;
-      });
-      this.setState({searchBooksArray});
-    })
+    const searchBooksArray = this.state.searchBooksArray.map((searchBook) => {
+      if (searchBook.id === book.id) {
+        searchBook.shelf = shelf;
+      }
+      return searchBook;
+    });
+    this.setState({searchBooksArray});
+    BooksAPI.update(book, shelf);
   };
 
   /**
