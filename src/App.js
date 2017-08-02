@@ -5,7 +5,7 @@ import * as BooksAPI from './BooksAPI';
 import Search from './Search';
 import MyBooksList from './MyBooksList';
 import NoMatch from './NoMatch';
-import keyIndex from 'react-key-index';
+import shortid from 'shortid';
 
 /**
 * @description App component. Uses Route to call Search and MyBooksList components depending on path. App gets called in index.js to display App in root div. Passes a list of books from state, and updateBookShelf method to Search and MyBookList. Also passes  each onUpdateQuery and query to Search.
@@ -25,7 +25,7 @@ class App extends Component {
   */
   componentDidMount() {
     BooksAPI.getAll().then((books) => {
-      const myBooks = keyIndex(books, 1)
+      const myBooks = books.map((book) => Object.assign(book, {_id: shortid.generate()}))
       this.setState({ myBooks });
     });
   }
@@ -35,14 +35,14 @@ class App extends Component {
   */
   updateBookShelf = (bookToUpdate, shelf) => {
     const newBook = Object.assign(bookToUpdate, { shelf: shelf });
-    const myBooksFiltered = this.state.myBooks.filter((myBook) => myBook._titleId !== bookToUpdate._titleId)
+    const myBooksFiltered = this.state.myBooks.filter((myBook) => myBook.id !== bookToUpdate.id)
     const booksFilteredWithNewBook = myBooksFiltered.concat(newBook);
     const newCurrentlyReading = booksFilteredWithNewBook.filter((myBook) => myBook.shelf === 'currentlyReading');
     const newWantToRead = booksFilteredWithNewBook.filter((myBook) => myBook.shelf === 'wantToRead');
     const newRead = booksFilteredWithNewBook.filter((myBook) => myBook.shelf === 'read');
     const myBooks = newCurrentlyReading.concat(newWantToRead).concat(newRead);
     const searchBooksArray = this.state.searchBooksArray.map((book) => {
-      if (book._titleId === bookToUpdate._titleId) {
+      if (book.id === bookToUpdate.id) {
         book.shelf = shelf;
       }
       return book;
@@ -56,8 +56,13 @@ class App extends Component {
   */
   updateQuery = (query) => {
     this.setState({ query: query });
-    BooksAPI.search(query, 20).then((searchBooksArray) => {
-      Array.isArray(searchBooksArray) ? this.setState({ searchBooksArray }) : this.setState({ searchBooksArray: [] });
+    BooksAPI.search(query, 20).then((books) => {
+      if (Array.isArray(books)) {
+        const searchBooksArray = books.map((book) => Object.assign(book, {_id: shortid.generate()}));
+        this.setState({ searchBooksArray })
+      } else {
+        this.setState({ searchBooksArray: [] });
+      }
       this.assignProperShelfToSearchResults();
     });
   };
@@ -66,12 +71,11 @@ class App extends Component {
   * @description - Assigns proper shelves to search result then sets state. Called when updateQuery() so search results are updated every time query changes.
   */
   assignProperShelfToSearchResults = () => {
-    const searchBooks = this.state.searchBooksArray.map((searchBook) => {
+    const searchBooksArray = this.state.searchBooksArray.map((searchBook) => {
       const myBook = this.state.myBooks.filter((myBook) => myBook.id === searchBook.id)[0];
       myBook ? searchBook.shelf = myBook.shelf : searchBook.shelf = 'none';
       return searchBook;
     });
-    const searchBooksArray = keyIndex(searchBooks, 1);
     this.setState({ searchBooksArray });
   }
 

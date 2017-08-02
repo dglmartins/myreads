@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 const ListOfBooks = (props) => (
   <ol className="books-grid">
     {props.booksArray.map((book) =>
-      <li key={book._titleId}>
+      <li key={book._id}>
         <Book
           book={book}
           onUpdateBookShelf={props.onUpdateBookShelf}/>

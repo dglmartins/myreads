@@ -3,8 +3,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 This is the myReads for the final assessment project for Udacity's React Fundamentals course, developed by [React Training](https://reacttraining.com).
 
 Fork and clone your own version of this to use it.
-run npm install
-run npm start
+run `npm install`
+run `npm start`
 
 ## What You're Getting
 ```
