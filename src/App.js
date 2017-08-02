@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import './App.css';
 import * as BooksAPI from './BooksAPI';
 import Search from './Search';
 import MyBooksList from './MyBooksList';
+import NoMatch from './NoMatch';
 
 /**
 * @description App component. Uses Route to call Search and MyBooksList components depending on path. App gets called in index.js to display App in root div. Passes a list of books from state, and updateBookShelf method to Search and MyBookList. Also passes  each onUpdateQuery and query to Search.
@@ -74,12 +75,15 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Route exact path="/search" render={() => (
-          <Search searchBooksArray={this.state.searchBooksArray} onUpdateQuery={this.updateQuery} onUpdateBookShelf={this.updateBookShelf} query={this.state.query}/>
-        )}/>
-        <Route exact path="/" render={() => (
-          <MyBooksList myBooks={this.state.myBooks} onUpdateBookShelf={this.updateBookShelf}/>
-        )}/>
+        <Switch>
+          <Route exact path="/search" render={() => (
+            <Search searchBooksArray={this.state.searchBooksArray} onUpdateQuery={this.updateQuery} onUpdateBookShelf={this.updateBookShelf} query={this.state.query}/>
+          )}/>
+          <Route exact path="/" render={() => (
+            <MyBooksList myBooks={this.state.myBooks} onUpdateBookShelf={this.updateBookShelf}/>
+          )}/>
+          <Route component={NoMatch}/>
+        </Switch>
       </div>
     );
   }
