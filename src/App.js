@@ -8,7 +8,7 @@ import NoMatch from './NoMatch';
 import shortid from 'shortid';
 
 /**
-* @description App component. Uses Route to call Search and MyBooksList components depending on path. App gets called in index.js to display App in root div. Passes a list of books from state, and updateBookShelf method to Search and MyBookList. Also passes  each onUpdateQuery and query to Search.
+* @description App component. Uses Switch to navigate to 404 if wrong path. Uses Route to call Search and MyBooksList components depending on path. App gets called in index.js to display App in root div. Passes a list of books from state, and updateBookShelf method to Search and MyBookList. Also passes  each onUpdateQuery and query to Search.
 */
 
 class App extends Component {
@@ -21,7 +21,7 @@ class App extends Component {
   }
 
   /**
-  * @description - gets my books from server with API call then sets state when componentDidMount.
+  * @description - gets my books from server with API call, adds shortid for unique keys then sets state when componentDidMount.
   */
   componentDidMount() {
     BooksAPI.getAll().then((books) => {
@@ -52,7 +52,7 @@ class App extends Component {
   };
 
   /**
-  * @description - Updates query state, gets search results from server with BooksAPi. Checks if response is an array (because empty response is not an array), sets state of searchBooksArray to either search results or empty array (if empty search results). Finally assignProperShelfToSearchResults() to update to correct shelf. Called onChange of search input.
+  * @description - Updates query state, gets search results from server with BooksAPi. Checks if response is an array (because empty response is not an array). If is array, adds unique shortid, and sets state of searchBooksArray. If response is not array, sets sets search results state to empty array. Finally assignProperShelfToSearchResults() to update to correct shelf. Called onChange of search input.
   */
   updateQuery = (query) => {
     this.setState({ query: query });
