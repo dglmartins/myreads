@@ -13,7 +13,7 @@ const BookShelf = (props) => (
     <h2 className="bookshelf-title">{props.title}</h2>
     <div className="bookshelf-books">
       <ListOfBooks
-        booksArray={props.books}
+        booksArray={props.booksArray}
         onUpdateBookShelf={props.onUpdateBookShelf}/>
     </div>
   </div>
@@ -22,7 +22,7 @@ const BookShelf = (props) => (
 /*propTypes check*/
 BookShelf.propTypes = {
   title: PropTypes.string.isRequired,
-  books: PropTypes.array.isRequired,
+  booksArray: PropTypes.array.isRequired,
   onUpdateBookShelf: PropTypes.func.isRequired
 };
 
